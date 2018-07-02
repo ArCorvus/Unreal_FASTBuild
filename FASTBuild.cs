@@ -24,11 +24,11 @@ namespace UnrealBuildTool
 		private bool bEnableDistribution = true;
 
 		// Controls whether to use caching at all. CachePath and CacheMode are only relevant if this is enabled.
-		private bool bEnableCaching = false;
+		private bool bEnableCaching = true;
 
 		// Location of the shared cache, it could be a local or network path (i.e: @"\\DESKTOP-BEAST\FASTBuildCache").
 		// Only relevant if bEnableCaching is true;
-		private string CachePath = @"\\SharedDrive\FASTBuildCache";   
+		private string CachePath = "";
 
 		public enum eCacheMode
 		{
@@ -581,8 +581,8 @@ namespace UnrealBuildTool
                 {
 					//VS 2017 is really confusing in terms of version numbers and paths so these values might need to be modified depending on what version of the tool chain you
 					// chose to install.
-                    AddText(string.Format("\t\t'{0}/Redist/MSVC/14.12.25810/x64/Microsoft.VC141.CRT/msvcp{1}.dll'\n", VCEnv.VCInstallDir, platformVersionNumber));
-                    AddText(string.Format("\t\t'{0}/Redist/MSVC/14.12.25810/x64/Microsoft.VC141.CRT/vccorlib{1}.dll'\n", VCEnv.VCInstallDir, platformVersionNumber));
+                    AddText(string.Format("\t\t'{0}/Redist/MSVC/14.13.26020/x64/Microsoft.VC141.CRT/msvcp{1}.dll'\n", VCEnv.VCInstallDir, platformVersionNumber));
+                    AddText(string.Format("\t\t'{0}/Redist/MSVC/14.13.26020/x64/Microsoft.VC141.CRT/vccorlib{1}.dll'\n", VCEnv.VCInstallDir, platformVersionNumber));
                 }
 
                 AddText("\t}\n"); //End extra files
