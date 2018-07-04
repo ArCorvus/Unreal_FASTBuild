@@ -572,17 +572,44 @@ namespace UnrealBuildTool
 				AddText(string.Format("\t\t'$Root$/msobj{0}.dll'\n", platformVersionNumber));
 				AddText(string.Format("\t\t'$Root$/mspdb{0}.dll'\n", platformVersionNumber));
 
-                if(VCEnv.Compiler == WindowsCompiler.VisualStudio2015)
+                if (VCEnv.Compiler == WindowsCompiler.VisualStudio2015)
                 {
                     AddText(string.Format("\t\t'{0}/redist/x64/Microsoft.VC{1}.CRT/msvcp{2}.dll'\n", VCEnv.VCInstallDir, platformVersionNumber, platformVersionNumber));
                     AddText(string.Format("\t\t'{0}/redist/x64/Microsoft.VC{1}.CRT/vccorlib{2}.dll'\n", VCEnv.VCInstallDir, platformVersionNumber, platformVersionNumber));
                 }
                 else 
                 {
-					//VS 2017 is really confusing in terms of version numbers and paths so these values might need to be modified depending on what version of the tool chain you
-					// chose to install.
-                    AddText(string.Format("\t\t'{0}/Redist/MSVC/14.14.26405/x64/Microsoft.VC141.CRT/msvcp{1}.dll'\n", VCEnv.VCInstallDir, platformVersionNumber));
-                    AddText(string.Format("\t\t'{0}/Redist/MSVC/14.14.26405/x64/Microsoft.VC141.CRT/vccorlib{1}.dll'\n", VCEnv.VCInstallDir, platformVersionNumber));
+					if (true) // try to find redist version
+					{
+						try
+						{
+							List<string> dirs = new List<string>(Directory.EnumerateDirectories(string.Format("{0}/Redist/MSVC", VCEnv.VCInstallDir)));
+							dirs.Sort();
+							dirs.Reverse(); // if there is occasionally several versions try to take the last one
+							foreach (var dir in dirs)
+							{
+								//string version = string.Format("{0}", dir.Substring(dir.LastIndexOf("\\") + 1));
+								string dllPath = string.Format("\t\t'{0}/x64/Microsoft.VC141.CRT/msvcp{1}.dll'\n", dir, platformVersionNumber);
+								if (File.Exists(dllPath))
+								{
+									AddText(string.Format("\t\t'{0}/x64/Microsoft.VC141.CRT/msvcp{1}.dll'\n", dir, platformVersionNumber));
+									AddText(string.Format("\t\t'{0}/x64/Microsoft.VC141.CRT/vccorlib{1}.dll'\n", dir, platformVersionNumber));
+									break;
+								}
+							}
+						}
+						catch (Exception)
+						{
+							Console.WriteLine("Redist forVisual Studio 2017 is not found!");
+						}
+					}
+					else
+					{
+						//VS 2017 is really confusing in terms of version numbers and paths so these values might need to be modified depending on what version of the tool chain you
+						// chose to install.
+						AddText(string.Format("\t\t'{0}/Redist/MSVC/14.14.26405/x64/Microsoft.VC141.CRT/msvcp{1}.dll'\n", VCEnv.VCInstallDir, platformVersionNumber));
+						AddText(string.Format("\t\t'{0}/Redist/MSVC/14.14.26405/x64/Microsoft.VC141.CRT/vccorlib{1}.dll'\n", VCEnv.VCInstallDir, platformVersionNumber));
+					}
                 }
 
                 AddText("\t}\n"); //End extra files
