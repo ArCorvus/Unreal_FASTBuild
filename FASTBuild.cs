@@ -476,7 +476,7 @@ namespace UnrealBuildTool
 				// it probably means we are building for another platform.
                 if(BuildType == FBBuildType.Windows)
                 {
-                    VCEnv = VCEnvironment.SetEnvironment(CppPlatform.Win64, WindowsPlatform.GetDefaultCompiler(null));
+                    VCEnv = VCEnvironment.SetEnvironment(CppPlatform.Win64, WindowsCompiler.VisualStudio2017);
                 }
                 else if (BuildType == FBBuildType.XBOne)
                 {
@@ -581,8 +581,8 @@ namespace UnrealBuildTool
                 {
 					//VS 2017 is really confusing in terms of version numbers and paths so these values might need to be modified depending on what version of the tool chain you
 					// chose to install.
-                    AddText(string.Format("\t\t'{0}/Redist/MSVC/14.13.26020/x64/Microsoft.VC141.CRT/msvcp{1}.dll'\n", VCEnv.VCInstallDir, platformVersionNumber));
-                    AddText(string.Format("\t\t'{0}/Redist/MSVC/14.13.26020/x64/Microsoft.VC141.CRT/vccorlib{1}.dll'\n", VCEnv.VCInstallDir, platformVersionNumber));
+                    AddText(string.Format("\t\t'{0}/Redist/MSVC/14.14.26405/x64/Microsoft.VC141.CRT/msvcp{1}.dll'\n", VCEnv.VCInstallDir, platformVersionNumber));
+                    AddText(string.Format("\t\t'{0}/Redist/MSVC/14.14.26405/x64/Microsoft.VC141.CRT/vccorlib{1}.dll'\n", VCEnv.VCInstallDir, platformVersionNumber));
                 }
 
                 AddText("\t}\n"); //End extra files
