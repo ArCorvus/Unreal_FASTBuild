@@ -697,9 +697,10 @@ namespace UnrealBuildTool
 			AddText(string.Format("\t.CompilerInputFiles = \"{0}\"\n", InputFile));
 			AddText(string.Format("\t.CompilerOutputPath = \"{0}\"\n", IntermediatePath));
 
-			if(!Action.bCanExecuteRemotely || !Action.bCanExecuteRemotelyWithSNDBS || ForceLocalCompileModules.Contains(Path.GetFileNameWithoutExtension(InputFile)))
+			if (!Action.bCanExecuteRemotely || !Action.bCanExecuteRemotelyWithSNDBS || ForceLocalCompileModules.Contains(Path.GetFileNameWithoutExtension(InputFile)))
 			{
 				AddText(string.Format("\t.AllowDistribution = false\n"));
+				AddText(string.Format("\t.AllowCaching = false\n"));
 			}
 
 			string OtherCompilerOptions = GetOptionValue(ParsedCompilerOptions, "OtherOptions", Action);
